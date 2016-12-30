@@ -11,10 +11,7 @@ import (
 
 func TestDistanceHandlerNotPost(t *testing.T) {
 
-	req, err := http.NewRequest("GET", "/api/v1/distance", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	req, _ := http.NewRequest("GET", "/api/v1/distance", nil)
 
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(distanceHandler)
@@ -28,10 +25,7 @@ func TestDistanceHandlerNotPost(t *testing.T) {
 
 func TestDistanceHandlerPostNilBodyError(t *testing.T) {
 
-	req, err := http.NewRequest("POST", "/api/v1/distance", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	req, _ := http.NewRequest("POST", "/api/v1/distance", nil)
 
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(distanceHandler)
@@ -45,10 +39,7 @@ func TestDistanceHandlerPostNilBodyError(t *testing.T) {
 
 func TestDistanceHandlerInvalidJSON(t *testing.T) {
 
-	req, err := http.NewRequest("POST", "/api/v1/distance", strings.NewReader(`bad json`))
-	if err != nil {
-		t.Fatal(err)
-	}
+	req, _ := http.NewRequest("POST", "/api/v1/distance", strings.NewReader(`bad json`))
 
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(distanceHandler)
@@ -62,10 +53,7 @@ func TestDistanceHandlerInvalidJSON(t *testing.T) {
 
 func TestDistanceHandlerMissingSourceKeyPost(t *testing.T) {
 
-	req, err := http.NewRequest("POST", "/api/v1/distance", strings.NewReader(`{"bad": "POST"}`))
-	if err != nil {
-		t.Fatal(err)
-	}
+	req, _ := http.NewRequest("POST", "/api/v1/distance", strings.NewReader(`{"bad": "POST"}`))
 
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(distanceHandler)
@@ -82,11 +70,8 @@ func TestDistanceHandlerMissingTargetKeyPost(t *testing.T) {
 	json := `{"source": "some data, some more data"}`
 	reader := strings.NewReader(json)
 
-	req, err := http.NewRequest("POST", "/api/v1/distance", reader)
+	req, _ := http.NewRequest("POST", "/api/v1/distance", reader)
 	req.Header.Set("Content-Type", "application/json")
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(distanceHandler)
@@ -95,5 +80,23 @@ func TestDistanceHandlerMissingTargetKeyPost(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, rr.Code)
 	assert.Equal(t, `{"Success":false,"Message":"HTTP POST must have JSON object with key called 'target' containing a comma delimited list of target strings to be mapped to"}`, rr.Body.String())
+
+}
+
+func TestDistanceHandlerValidRequest(t *testing.T) {
+
+	json := `{"source": "some data, some more data", "target": "some target data, and some more"}`
+	reader := strings.NewReader(json)
+
+	req, _ := http.NewRequest("POST", "/api/v1/distance", reader)
+	req.Header.Set("Content-Type", "application/json")
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(distanceHandler)
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Equal(t, `{"Success":true,"results":[{"Source":"some data","Target":"some target data","Distance":7}]}`, rr.Body.String())
 
 }

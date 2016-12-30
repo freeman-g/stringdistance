@@ -27,53 +27,66 @@ func distanceHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	if valid, dr := checkPostValidityAndParseForm(r); !valid {
+	if err := isRequestValid(r); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		dr := getUnsuccessfulResponse(err.Error())
 		w.Write(marshalResponse(dr))
 		log.Println("Invalid request")
 		return
 	}
 
-	//todo:  MaxBytesReader
+	distanceRequest, err := decodeDistanceRequest(r)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		dr := getUnsuccessfulResponse(err.Error())
+		w.Write(marshalResponse(dr))
+		log.Println("Invalid request")
+		return
+	}
+
+	distanceResponse := getDistanceResponse(distanceRequest)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(marshalResponse(distanceResponse))
 
 }
 
-func checkPostValidityAndParseForm(r *http.Request) (bool, DistanceResponse) {
+func isRequestValid(r *http.Request) error {
 
 	if r.Method != "POST" {
-		dr := getUnsuccessfulResponse("Only HTTP POST is supported")
-		return false, dr
+		return fmt.Errorf("Only HTTP POST is supported")
 	}
 
 	if r.Body == nil {
-		dr := getUnsuccessfulResponse("HTTP POST body must contain a JSON object with keys 'source' and 'target'")
-		return false, dr
+		return fmt.Errorf("HTTP POST body must contain a JSON object with keys 'source' and 'target'")
 	}
+
+	return nil
+
+}
+
+func decodeDistanceRequest(r *http.Request) (DistanceRequest, error) {
 
 	decoder := json.NewDecoder(r.Body)
 
-	var post DistancePost
-	err := decoder.Decode(&post)
+	var distanceRequest DistanceRequest
+	err := decoder.Decode(&distanceRequest)
 
 	if err != nil {
-		message := fmt.Sprintf("Error decoding JSON http post, expected valid JSON body: %v", err)
-		dr := getUnsuccessfulResponse(message)
-		return false, dr
+
+		return distanceRequest, fmt.Errorf("Error decoding JSON http post, expected valid JSON body: %v", err)
 	}
 
-	if post.Source == "" {
-		dr := getUnsuccessfulResponse(`HTTP POST must have JSON object with key called 'source' containing a comma delimited list of source strings to be mapped`)
-		return false, dr
-
+	if distanceRequest.Source == "" {
+		return distanceRequest, fmt.Errorf(`HTTP POST must have JSON object with key called 'source' containing a comma delimited list of source strings to be mapped`)
 	}
 
-	if post.Target == "" {
-		dr := getUnsuccessfulResponse(`HTTP POST must have JSON object with key called 'target' containing a comma delimited list of target strings to be mapped to`)
-		return false, dr
+	if distanceRequest.Target == "" {
+		return distanceRequest, fmt.Errorf(`HTTP POST must have JSON object with key called 'target' containing a comma delimited list of target strings to be mapped to`)
 	}
 
-	return true, DistanceResponse{}
-
+	return distanceRequest, nil
 }
 
 func marshalResponse(dr DistanceResponse) []byte {
