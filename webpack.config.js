@@ -5,7 +5,7 @@ var BUILD_DIR = path.resolve(__dirname, 'static/js');
 var APP_DIR = path.resolve(__dirname, 'static/js');
 
 var config = {
-  entry: APP_DIR + '/app.jsx',
+  entry: ['whatwg-fetch', APP_DIR + '/app.jsx'],
   output: {
     path: BUILD_DIR,
     filename: 'app.js'

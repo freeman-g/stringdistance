@@ -12,6 +12,9 @@
     <title>String Distance | Online string distance matching</title>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -19,13 +22,33 @@
         <div class="header clearfix">
             <a href="/" title="String Distance"><h1>STRING DISTANCE</h1></a>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div id="root"></div>
-                    <script type="text/javascript" src="static/js/app.js"></script>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="intro">
+                    Welcome to String Distance
                 </div>
             </div>
+        </div>
+        <ul class="nav nav-tabs" role="tablist" style="padding-top: 1em;">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#interactive" role="tab">Interactive</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#api" role="tab">API</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="interactive" role="tabpanel">
+                <div class="row" style="padding-top: 1em;">
+                    <div class="col-sm-12">
+                        <div id="root"></div>
+                        <div id="table" style="padding-top: 1em;"></div>
+                                                	<script type="text/javascript" src="static/js/app.js"></script>
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="api" role="tabpanel">abc</div>
         </div>
     </div>
 </body>

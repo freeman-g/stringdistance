@@ -1,12 +1,13 @@
 import React from 'react';
 import {render} from 'react-dom';
+import 'whatwg-fetch';
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sourceString: 'test',
-      targetString: 'another test'
+      sourceString: 'some data, hey some more dat',
+      targetString: 'some datam, hey some more data that you like'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -21,8 +22,27 @@ class Form extends React.Component {
   }
 
   handleSubmit(event) {
-    // alert('A name was submitted: ' + this.state.targetString);
-    test(this.state)
+
+
+     fetch('/api/v1/distance',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      source: this.state.sourceString,
+      target: this.state.targetString,
+    })
+  }) .then(function fetchDistancesResponse(response) {
+    return response.json()
+  }).then(function(json) {
+     render(
+      <Table tableData={json}/>,
+      document.getElementById('table')
+    );
+  }).catch(function(ex) {
+    console.log('parsing failed', ex)
+  })
     event.preventDefault();
   }
 
@@ -50,11 +70,70 @@ class Form extends React.Component {
   }
 }
 
+class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tableData: props.tableData.results
+    };
+  }
+
+  render() {
+    var rows = []
+    this.state.tableData.forEach(function(result, i) {
+      rows.push(<Row result={result} key={i} />);
+    });
+    
+    return (
+      <table className="table">
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th>Mapping Target</th>
+                  <th>String Distance</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {rows}
+              </tbody>
+            </table>
+    );
+  }
+}
+
+class Row extends React.Component {
+  render() {
+    return (
+      <tr>
+        <td>{this.props.result.Source}</td>
+        <td>{this.props.result.Target}</td>
+        <td>{this.props.result.Distance}</td>
+      </tr>
+    );
+  }
+}
+
 // ========================================
 
-function test(formData) {
-  // console.log(formData)
-  alert('the form was submitted: ' + formData.sourceString);
+function fetchDistances(formData) {
+
+  fetch('/api/v1/distance',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      source: formData.sourceString,
+      target: formData.targetString,
+    })
+  }) .then(function fetchDistancesResponse(response) {
+    console.log()
+    return response.json()
+  }).then(function(json) {
+    console.log('parsed json', json)
+  }).catch(function(ex) {
+    console.log('parsing failed', ex)
+  })
 }
 
 render(
