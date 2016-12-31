@@ -37,7 +37,7 @@ class Form extends React.Component {
     return response.json()
   }).then(function(json) {
      render(
-      <Table tableData={json}/>,
+      <Table tableData={json.results}></Table>,
       document.getElementById('table')
     );
   }).catch(function(ex) {
@@ -73,14 +73,11 @@ class Form extends React.Component {
 class Table extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tableData: props.tableData.results
-    };
   }
 
   render() {
     var rows = []
-    this.state.tableData.forEach(function(result, i) {
+    this.props.tableData.forEach(function(result, i) {
       rows.push(<Row result={result} key={i} />);
     });
     
@@ -113,28 +110,7 @@ class Row extends React.Component {
   }
 }
 
-// ========================================
-
-function fetchDistances(formData) {
-
-  fetch('/api/v1/distance',{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      source: formData.sourceString,
-      target: formData.targetString,
-    })
-  }) .then(function fetchDistancesResponse(response) {
-    console.log()
-    return response.json()
-  }).then(function(json) {
-    console.log('parsed json', json)
-  }).catch(function(ex) {
-    console.log('parsing failed', ex)
-  })
-}
+// ======================================= ///
 
 render(
 	 <Form />,
