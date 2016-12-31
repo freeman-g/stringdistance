@@ -546,192 +546,187 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var Form = function (_React$Component) {
-	  _inherits(Form, _React$Component);
+	    _inherits(Form, _React$Component);
 	
-	  function Form(props) {
-	    _classCallCheck(this, Form);
+	    function Form(props) {
+	        _classCallCheck(this, Form);
 	
-	    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
 	
-	    _this.state = {
-	      sourceString: 'some data, hey some more dat',
-	      targetString: 'some datam, hey some more data that you like'
-	    };
+	        _this.state = {
+	            sourceString: 'some data, hey some more dat',
+	            targetString: 'some datam, hey some more data that you like'
+	        };
 	
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Form, [{
-	    key: 'handleChange',
-	    value: function handleChange(event) {
-	      this.setState({
-	        sourceString: event.target.value,
-	        targetString: event.target.value
-	      });
+	        _this.handleChange = _this.handleChange.bind(_this);
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+	        return _this;
 	    }
-	  }, {
-	    key: 'handleSubmit',
-	    value: function handleSubmit(event) {
 	
-	      fetch('/api/v1/distance', {
-	        method: 'POST',
-	        headers: {
-	          'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({
-	          source: this.state.sourceString,
-	          target: this.state.targetString
-	        })
-	      }).then(function fetchDistancesResponse(response) {
-	        return response.json();
-	      }).then(function (json) {
-	        (0, _reactDom.render)(_react2.default.createElement(Table, { tableData: json.results }), document.getElementById('table'));
-	      }).catch(function (ex) {
-	        console.log('parsing failed', ex);
-	      });
-	      event.preventDefault();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
+	    _createClass(Form, [{
+	        key: 'handleChange',
+	        value: function handleChange(event) {
+	            this.setState({
+	                sourceString: event.target.value,
+	                targetString: event.target.value
+	            });
+	        }
+	    }, {
+	        key: 'handleSubmit',
+	        value: function handleSubmit(event) {
 	
-	      return _react2.default.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          _react2.default.createElement('textarea', { className: 'form-control',
-	            value: this.state.sourceString,
-	            onChange: function onChange(e) {
-	              return _this2.setState({ sourceString: e.target.value });
-	            },
-	            id: 'exampleTextarea', rows: '3' }),
-	          _react2.default.createElement(
-	            'small',
-	            { id: 'emailHelp', className: 'form-text text-muted' },
-	            'Enter a comma delimited list of source strings'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          _react2.default.createElement('textarea', { className: 'form-control', value: this.state.targetString,
-	            onChange: function onChange(e) {
-	              return _this2.setState({ targetString: e.target.value });
-	            },
-	            id: 'exampleTextarea2', rows: '3' }),
-	          _react2.default.createElement(
-	            'small',
-	            { id: 'emailHelp', className: 'form-text text-muted' },
-	            'Enter a comma delimited list of mapping target strings'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { type: 'submit', className: 'btn btn-primary' },
-	          'Submit'
-	        )
-	      );
-	    }
-	  }]);
+	            fetch('/api/v1/distance', {
+	                method: 'POST',
+	                headers: {
+	                    'Content-Type': 'application/json'
+	                },
+	                body: JSON.stringify({
+	                    source: this.state.sourceString,
+	                    target: this.state.targetString
+	                })
+	            }).then(function fetchDistancesResponse(response) {
+	                return response.json();
+	            }).then(function (json) {
+	                (0, _reactDom.render)(_react2.default.createElement(Table, { tableData: json.results }), document.getElementById('table'));
+	            }).catch(function (ex) {
+	                console.log('parsing failed', ex);
+	            });
+	            event.preventDefault();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
 	
-	  return Form;
+	            return _react2.default.createElement(
+	                'form',
+	                { onSubmit: this.handleSubmit },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement('textarea', { className: 'form-control', value: this.state.sourceString, onChange: function onChange(e) {
+	                            return _this2.setState({ sourceString: e.target.value });
+	                        }, id: 'exampleTextarea', rows: '3' }),
+	                    _react2.default.createElement(
+	                        'small',
+	                        { id: 'emailHelp', className: 'form-text text-muted' },
+	                        'Enter a comma delimited list of source strings'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement('textarea', { className: 'form-control', value: this.state.targetString, onChange: function onChange(e) {
+	                            return _this2.setState({ targetString: e.target.value });
+	                        }, id: 'exampleTextarea2', rows: '3' }),
+	                    _react2.default.createElement(
+	                        'small',
+	                        { id: 'emailHelp', className: 'form-text text-muted' },
+	                        'Enter a comma delimited list of mapping target strings'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { type: 'submit', className: 'btn btn-primary' },
+	                    'Submit'
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Form;
 	}(_react2.default.Component);
 	
 	var Table = function (_React$Component2) {
-	  _inherits(Table, _React$Component2);
+	    _inherits(Table, _React$Component2);
 	
-	  function Table(props) {
-	    _classCallCheck(this, Table);
+	    function Table(props) {
+	        _classCallCheck(this, Table);
 	
-	    return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
-	  }
-	
-	  _createClass(Table, [{
-	    key: 'render',
-	    value: function render() {
-	      var rows = [];
-	      this.props.tableData.forEach(function (result, i) {
-	        rows.push(_react2.default.createElement(Row, { result: result, key: i }));
-	      });
-	
-	      return _react2.default.createElement(
-	        'table',
-	        { className: 'table' },
-	        _react2.default.createElement(
-	          'thead',
-	          null,
-	          _react2.default.createElement(
-	            'tr',
-	            null,
-	            _react2.default.createElement(
-	              'th',
-	              null,
-	              'Source'
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              null,
-	              'Mapping Target'
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              null,
-	              'String Distance'
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tbody',
-	          null,
-	          rows
-	        )
-	      );
+	        return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
 	    }
-	  }]);
 	
-	  return Table;
+	    _createClass(Table, [{
+	        key: 'render',
+	        value: function render() {
+	            var rows = [];
+	            this.props.tableData.forEach(function (result, i) {
+	                rows.push(_react2.default.createElement(Row, { result: result, key: i }));
+	            });
+	
+	            return _react2.default.createElement(
+	                'table',
+	                { className: 'table' },
+	                _react2.default.createElement(
+	                    'thead',
+	                    null,
+	                    _react2.default.createElement(
+	                        'tr',
+	                        null,
+	                        _react2.default.createElement(
+	                            'th',
+	                            null,
+	                            'Source'
+	                        ),
+	                        _react2.default.createElement(
+	                            'th',
+	                            null,
+	                            'Mapping Target'
+	                        ),
+	                        _react2.default.createElement(
+	                            'th',
+	                            null,
+	                            'String Distance'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'tbody',
+	                    null,
+	                    rows
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Table;
 	}(_react2.default.Component);
 	
 	var Row = function (_React$Component3) {
-	  _inherits(Row, _React$Component3);
+	    _inherits(Row, _React$Component3);
 	
-	  function Row() {
-	    _classCallCheck(this, Row);
+	    function Row() {
+	        _classCallCheck(this, Row);
 	
-	    return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).apply(this, arguments));
-	  }
-	
-	  _createClass(Row, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'tr',
-	        null,
-	        _react2.default.createElement(
-	          'td',
-	          null,
-	          this.props.result.Source
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          null,
-	          this.props.result.Target
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          null,
-	          this.props.result.Distance
-	        )
-	      );
+	        return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).apply(this, arguments));
 	    }
-	  }]);
 	
-	  return Row;
+	    _createClass(Row, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'tr',
+	                null,
+	                _react2.default.createElement(
+	                    'td',
+	                    null,
+	                    this.props.result.Source
+	                ),
+	                _react2.default.createElement(
+	                    'td',
+	                    null,
+	                    this.props.result.Target
+	                ),
+	                _react2.default.createElement(
+	                    'td',
+	                    null,
+	                    this.props.result.Distance
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return Row;
 	}(_react2.default.Component);
 	
 	// ======================================= ///
