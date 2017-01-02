@@ -6,8 +6,8 @@ class Form extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sourceString: 'some data, hey some more dat',
-            targetString: 'some datam, hey some more data that you like'
+            sourceString: 'Lord of the rings, Hunger games, A river runs through it',
+            targetString: 'The Lord of the Rings, Hunger Games The Movie, A River Runs Through'
         };
 
         this.handleChange = this.handleChange.bind(this);

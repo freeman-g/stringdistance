@@ -27,6 +27,7 @@ func TestGetFuzzyMatches(t *testing.T) {
 	expectedDistances := []Distance{
 		Distance{"A river runs", "A river runs through it", 11},
 		Distance{"Hunger Games", "The Hunger games", 5},
+		Distance{"The lord of the rings", "lord of the rings", 4},
 	}
 	assert.Equal(t, true, resp.Success)
 	assert.Equal(t, expectedDistances, resp.Distances)

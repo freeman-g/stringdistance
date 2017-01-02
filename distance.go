@@ -70,6 +70,8 @@ func getFuzzyMatches(sources, targets []string) DistanceResponse {
 
 	var distanceResponse DistanceResponse
 	var distances []Distance
+	var firstPassUnmatched []string
+	matched := false
 
 	for _, sourceWord := range sources {
 		matches := fuzzy.RankFindFold(sourceWord, targets)
@@ -78,6 +80,25 @@ func getFuzzyMatches(sources, targets []string) DistanceResponse {
 		for _, match := range matches {
 			d := Distance{Source: match.Source, Target: match.Target, Distance: match.Distance}
 			distances = append(distances, d)
+			matched = true
+		}
+
+		if !matched {
+			firstPassUnmatched = append(firstPassUnmatched, sourceWord)
+		}
+
+		matched = false
+
+	}
+
+	for _, sourceWord := range targets {
+		matches := fuzzy.RankFindFold(sourceWord, firstPassUnmatched)
+		sort.Sort(matches)
+
+		for _, match := range matches {
+			d := Distance{Source: match.Target, Target: match.Source, Distance: match.Distance}
+			distances = append(distances, d)
+			matched = true
 		}
 
 	}
