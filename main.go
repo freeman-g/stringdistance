@@ -9,11 +9,12 @@ import (
 )
 
 var index = template.Must(template.ParseFiles(
-	"templates/index.html",
+	"templates/index.html", "templates/api.html",
 ))
 
 func init() {
 	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api/v1/distance", distanceHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
@@ -21,6 +22,10 @@ func init() {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	index.ExecuteTemplate(w, "index.html", nil)
+}
+
+func apiHandler(w http.ResponseWriter, r *http.Request) {
+	index.ExecuteTemplate(w, "api.html", nil)
 }
 
 func distanceHandler(w http.ResponseWriter, r *http.Request) {
