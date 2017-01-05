@@ -10,12 +10,10 @@
     <meta name="description" content="Online string distance matching" />
     <meta name="robots" content="All" />
     <title>String Distance | Online string distance matching</title>
-    <link rel="icon" 
-      type="image/png" 
-      href="/static/favicon-code.ico">
-    <!-- Bootstrap core CSS -->
+    <!--<link rel="stylesheet" href="/static/stylesheets/font-awesome.min.css">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/stylesheets/font-awesome.min.css">
+    <link rel="icon" type="image/png" href="/static/favicon-code.ico">
+    <!-- Bootstrap core CSS -->
 </head>
 
 <body>
@@ -34,7 +32,7 @@
     </nav>
     <div class="jumbotron">
         <div class="container">
-            <a href="/" title="String Distance"><h1 class="display-3">Automated String Mapping</h1></a>
+            <a href="/" title="String Distance"><h1 class="display-4">Automated String Mapping</h1></a>
             <p>
                 Performing fuzzy mapping of similar data sets which have non-exact overlap is a common business problem. For example, merging and de-duplicating two product catalogs after an aquisition or merging data collected from disparate sources often needs to be completed to maintain quality data for a given business service. <strong>String distance</strong> matching of two similar data sets is a solution which can automate this task and reduce the size of the problem.
             </p>
@@ -63,10 +61,15 @@
                 <div class="row" style="padding-top: 1em;">
                     <div class="col-sm-12">
                         <div>
-                            Use our interactive online tool to perform fuzzy string distance mapping between two data sets. After you submit the form, the results will be presented below in an online table.
+                            <p>
+                                Use our interactive online tool to perform fuzzy string distance mapping between two data sets. After you submit the form, the results will be presented in an online table below.
+                            </p>
+                            <p>
+                                Fuzzy matches are not case sensitive, but do require that the whole source string be present in the target or vice versa. For example <code>Golden Son</code> will not fuzzy match to <code>Golden Sun</code>. In the future we hope to add more options to address these limitations produce better results based on machine learning algorithms.
+                            </p>
                         </div>
                         <div id="root" style="padding-top: 1em;"></div>
-                        <div id="table" style="padding-top: 1em;"></div>
+                        <div id="table"></div>
                         <script type="text/javascript" src="static/js/app.js"></script>
                     </div>
                 </div>
@@ -102,9 +105,17 @@
       "Source": " Hunger games",
       "Target": " Hunger Games The Movie",
       "Distance": 11
+    },
+    {
+      "Source": " A river runs through it",
+      "Target": " A River Runs Through",
+      "Distance": 6
     }
   ]
 }</code></pre>
+                        </p>
+                        <p>
+                            Fuzzy matches are not case sensitive, but do require that the whole source string be present in the target or vis-a-versa. For example <code>Golden Son</code> will not fuzzy match to <code>Golden Sun</code>. In the future we hope to add more options to produce better results based on machine learning algorithms.
                         </p>
                         <p>
                             The API also service handles various different failure cases which will result in a response with HTTP Status <code>400 Bad Request</code>, <code>Success: false</code> and a message in the JSON response:
@@ -118,7 +129,10 @@
             </div>
         </div>
         <footer style="padding-top: 3em;">
-            <p><i class="fa fa-lg fa-code" aria-hidden="true"></i> STRINGDISTANCE</p>
+            <hr></hr>
+            <p><strong>STRINGDISTANCE</strong></p> Please email <a href="mailto:customer-support@stringdistance.com" target="_top">customer-support@stringdistance.com</a> if you have any feedback or issues.
+            <hr></hr>
+            <small>STRINGDISTANCE does not store, reproduce, or retransmit your data.</small>
         </footer>
     </div>
     <!-- Bootstrap core JavaScript

@@ -2,11 +2,12 @@ import React from 'react';
 import { render } from 'react-dom';
 import 'whatwg-fetch';
 
+
 class Form extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sourceString: 'Lord of the rings, Hunger games, A river runs through it',
+            sourceString: 'Lord of the Rings, Hunger games, A river runs through it',
             targetString: 'The Lord of the Rings, Hunger Games The Movie, A River Runs Through'
         };
 
@@ -51,7 +52,7 @@ class Form extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                   <textarea className="form-control" value={this.state.sourceString} onChange={(e)=> this.setState({ sourceString: e.target.value })} id="exampleTextarea" rows="3"></textarea>
-                  <small id="emailHelp" className="form-text text-muted">Enter a comma delimited list of source strings</small>
+                  <small id="emailHelp" className="form-text text-muted">Enter a comma delimited list of source strings.  You can use double quotes if you need to treat commas as text.</small>
               </div>
               <div className="form-group">
                   <textarea className="form-control" value={this.state.targetString} onChange={(e)=> this.setState({ targetString: e.target.value })} id="exampleTextarea2" rows="3"></textarea>
@@ -75,18 +76,22 @@ class Table extends React.Component {
         });
 
         return (
-            <table className="table">
-              <thead>
-                  <tr>
-                      <th>Source</th>
-                      <th>Mapping Target</th>
-                      <th>String Distance</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {rows}
-              </tbody>
-            </table>
+          <div>
+             <hr></hr>
+             <h5><span className="tag tag-default">Mapped {this.props.tableData.length} Strings</span></h5>
+              <table className="table">
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Mapping Target</th>
+                        <th>String Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {rows}
+                </tbody>
+              </table>
+            </div>
         );
     }
 }
