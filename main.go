@@ -17,6 +17,7 @@ func init() {
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api/v1/distance", distanceHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.Handle("/sitemap.xml", http.StripPrefix("/", http.FileServer(http.Dir("static"))))
 
 }
 
