@@ -1,25 +1,26 @@
-# React development environment:
+# Getting Started
+
+## Install Go Dependencies
+
+```
+go get github.com/stretchr/testify/assert github.com/renstrom/fuzzysearch/fuzzy
+```
+
+## Install React Dependencies
 
 Install webpack:
 
 ```
-npm i webpack -S
+npm i react react-dom webpack babel-loader babel-preset-es2015 babel-preset-react babel-core whatwg-fetch -S
 ```
 
-Install the babel loader:
-
-```
-npm i babel-loader babel-preset-es2015 babel-preset-react -S
-```
-
-Install react and react dom:
-
-```
-npm i react react-dom -S
-```
-
-Run a webpack build:
+## Run a React build
 
 ```
 ./node_modules/.bin/webpack -d
+```
+
+## Run the app
+```
+go run main.go
 ```
