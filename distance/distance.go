@@ -1,4 +1,4 @@
-package main
+package distance
 
 import (
 	"encoding/csv"
@@ -27,7 +27,8 @@ type Distance struct {
 	Distance int
 }
 
-func getDistanceResponse(dr DistanceRequest) DistanceResponse {
+// test
+func GetDistanceResponse(dr DistanceRequest) DistanceResponse {
 
 	sources, sourceWordsErr := csvToSlice(dr.Source)
 

@@ -1,4 +1,4 @@
-#React development environment:
+# React development environment:
 
 Install webpack:
 

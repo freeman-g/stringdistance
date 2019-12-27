@@ -6,19 +6,32 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
+
+	"stringdistance/distance"
 )
 
 var index = template.Must(template.ParseFiles(
 	"templates/index.html", "templates/api.html",
 ))
 
-func init() {
+func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api/v1/distance", distanceHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/sitemap.xml", http.StripPrefix("/", http.FileServer(http.Dir("static"))))
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Printf("Defaulting to port %s", port)
+	}
+
+	log.Printf("Listening on port %s", port)
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -51,7 +64,7 @@ func distanceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	distanceResponse := getDistanceResponse(distanceRequest)
+	distanceResponse := distance.GetDistanceResponse(distanceRequest)
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalResponse(distanceResponse))
@@ -72,15 +85,14 @@ func isRequestValid(r *http.Request) error {
 
 }
 
-func decodeDistanceRequest(r *http.Request) (DistanceRequest, error) {
+func decodeDistanceRequest(r *http.Request) (distance.DistanceRequest, error) {
 
 	decoder := json.NewDecoder(r.Body)
 
-	var distanceRequest DistanceRequest
+	var distanceRequest distance.DistanceRequest
 	err := decoder.Decode(&distanceRequest)
 
 	if err != nil {
-
 		return distanceRequest, fmt.Errorf("Error decoding JSON http post, expected valid JSON body: %v", err)
 	}
 
@@ -95,7 +107,7 @@ func decodeDistanceRequest(r *http.Request) (DistanceRequest, error) {
 	return distanceRequest, nil
 }
 
-func marshalResponse(dr DistanceResponse) []byte {
+func marshalResponse(dr distance.DistanceResponse) []byte {
 
 	jData, err := json.Marshal(dr)
 	if err != nil {
@@ -106,6 +118,6 @@ func marshalResponse(dr DistanceResponse) []byte {
 
 }
 
-func getUnsuccessfulResponse(message string) DistanceResponse {
-	return DistanceResponse{Success: false, Message: message}
+func getUnsuccessfulResponse(message string) distance.DistanceResponse {
+	return distance.DistanceResponse{Success: false, Message: message}
 }
